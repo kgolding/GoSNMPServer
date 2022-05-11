@@ -1,4 +1,4 @@
-module github.com/GoSNMPServer/gosnmp
+module github.com/kgolding/GoSNMPServer/gosnmp
 
 require (
 	github.com/golang/mock v1.2.0
