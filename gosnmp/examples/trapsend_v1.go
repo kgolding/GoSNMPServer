@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	g "github.com/soniah/gosnmp"
+	g "github.com/kgolding/GoSNMPServer/gosnmp"
 )
 
 func main() {

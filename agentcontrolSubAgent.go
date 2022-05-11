@@ -3,7 +3,7 @@ package GoSNMPServer
 import "strings"
 import "fmt"
 import "sort"
-import "github.com/kgolding/gosnmp"
+import "github.com/kgolding/GoSNMPServer/gosnmp"
 import "github.com/pkg/errors"
 
 type SubAgent struct {

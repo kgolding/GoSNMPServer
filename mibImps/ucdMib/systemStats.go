@@ -1,6 +1,6 @@
 package ucdMib
 
-import "github.com/kgolding/gosnmp"
+import "github.com/kgolding/GoSNMPServer/gosnmp"
 import "github.com/kgolding/GoSNMPServer"
 import "github.com/shirou/gopsutil/cpu"
 import "github.com/shirou/gopsutil/disk"

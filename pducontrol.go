@@ -4,7 +4,7 @@ import (
 	"net"
 
 	"github.com/pkg/errors"
-	"github.com/kgolding/gosnmp"
+	"github.com/kgolding/GoSNMPServer/gosnmp"
 )
 
 // PermissionAllowance  ENUM controls for Allowance
