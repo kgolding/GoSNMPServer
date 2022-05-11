@@ -1,7 +1,7 @@
 package ucdMib
 
-import "github.com/slayercat/gosnmp"
-import "github.com/slayercat/GoSNMPServer"
+import "github.com/kgolding/gosnmp"
+import "github.com/kgolding/GoSNMPServer"
 import "github.com/shirou/gopsutil/mem"
 
 // MemoryOIDs Returns a list of memory operation.

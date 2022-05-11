@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kgolding/GoSNMPServer/gosnmp"
 	"github.com/pkg/errors"
 	"github.com/shirou/gopsutil/host"
-	"github.com/slayercat/gosnmp"
 )
 
 type FuncGetAuthoritativeEngineTime func() uint32
