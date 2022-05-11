@@ -1,3 +1,5 @@
+//build +all traps
+
 package GoSNMPServer
 
 import (
@@ -6,9 +8,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/kgolding/GoSNMPServer/gosnmp"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	"github.com/kgolding/GoSNMPServer/gosnmp"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
@@ -86,8 +88,14 @@ func (suite *TrapTests) TestTraps() {
 		result, err := getCmdOutput("snmptrap", "-v2c", "-c", "public", serverAddress.String(),
 			"", "1.2.4.1", "1.2.4.1", "s", "1.2.3.13")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+			}
+			return
 		}
 		_ = <-waiterReadyToWork
 		data := Asn1OctetStringUnwrap(trapDataReceived.Value)
@@ -97,8 +105,14 @@ func (suite *TrapTests) TestTraps() {
 		result, err := getCmdOutput("snmptrap", "-v", "1", "-c", "public", serverAddress.String(),
 			"", "", "6", "17", "", "1.2.4.1", "s", "v1Test")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+			}
+			return
 		}
 		_ = <-waiterReadyToWork
 		data := Asn1OctetStringUnwrap(trapDataReceived.Value)
@@ -108,8 +122,14 @@ func (suite *TrapTests) TestTraps() {
 		result, err := getCmdOutput("snmpinform", "-D", "ALL", "-LE", "d", "-v2c", "-c", "public", serverAddress.String(),
 			"", "1.2.4.1", "1.2.4.1", "s", "inform")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+			}
+			return
 		}
 		_ = <-waiterReadyToWork
 		data := Asn1OctetStringUnwrap(trapDataReceived.Value)
@@ -124,8 +144,14 @@ func (suite *TrapTests) TestTraps() {
 			serverAddress.String(),
 			"", "1.2.4.1", "1.2.4.1", "s", "1.2.3.13")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+			}
+			return
 		}
 		_ = <-waiterReadyToWork
 		data := Asn1OctetStringUnwrap(trapDataReceived.Value)
@@ -244,8 +270,14 @@ func (suite *TrapTests) TestErrorTraps() {
 		result, err := getCmdOutput("snmptrap", "-v2c", "-c", "public", serverAddress.String(),
 			"", "1.2.4.1", "1.2.4.1", "s", "1.2.3.13")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+			}
+			return
 		}
 		rr := <-waiterReadyToWork
 		assert.Equal(suite.T(), 1, rr)
@@ -255,8 +287,14 @@ func (suite *TrapTests) TestErrorTraps() {
 		result, err := getCmdOutput("snmptrap", "-v2c", "-c", "public", serverAddress.String(),
 			"", "1.2.4.2", "1.2.4.2", "s", "1.2.3.13")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+				return
+			}
 		}
 		rr := <-waiterReadyToWork
 		assert.Equal(suite.T(), 2, rr)
@@ -265,8 +303,14 @@ func (suite *TrapTests) TestErrorTraps() {
 		result, err := getCmdOutput("snmptrap", "-v2c", "-c", "public", serverAddress.String(),
 			"", "1.2.4.3", "1.2.4.3", "s", "1.2.3.13")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+				return
+			}
 		}
 		rr := <-waiterReadyToWork
 		assert.Equal(suite.T(), 3, rr)
@@ -276,8 +320,14 @@ func (suite *TrapTests) TestErrorTraps() {
 		result, err := getCmdOutput("snmptrap", "-v2c", "-c", "public", serverAddress.String(),
 			"", "1.2.4.2", "1.2.4.1", "s", "1.2.3.13")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+				return
+			}
 		}
 		rr := <-waiterReadyToWork
 		assert.Equal(suite.T(), 1, rr)
@@ -288,8 +338,14 @@ func (suite *TrapTests) TestErrorTraps() {
 		result, err := getCmdOutput("snmptrap", "-v2c", "-c", "public", serverAddress.String(),
 			"", "1.2.4.3", "1.2.4.3", "s", "1.2.3.13")
 		if err != nil {
-			suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
-				err, string(err.(*exec.ExitError).Stderr), string(result))
+			if ee, ok := err.(*exec.ExitError); ok {
+				suite.T().Errorf("cmd meet error: %+v.\nresultErr=%v\n resultout=%v",
+					err, string(ee.Stderr), string(result))
+			} else {
+				suite.T().Errorf("cmd meet error: %+v.\nresultout=%v",
+					err, string(result))
+				return
+			}
 		}
 		rr := <-waiterReadyToWork
 		assert.Equal(suite.T(), 3, rr)
